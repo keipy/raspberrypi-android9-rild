@@ -132,6 +132,7 @@ https://groups.google.com/forum/#!msg/Android-x86/1njBsHw0vro/YwhjZ7TtJJIJ
 # device/brobwind/rpi3/overlay/package/services/Telephony/res/value/config.xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>	
-<!-- Show enabled lte option for lte device -->    <bool name="config_enabled_lte" translatable="false">true</bool>
+<!-- Show enabled lte option for lte device -->    
+	<bool name="config_enabled_lte" translatable="false">true</bool>
 </resources>
 

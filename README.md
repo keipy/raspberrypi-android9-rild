@@ -3,6 +3,7 @@
 https://github.com/brobwind/pie-device-brobwind-rpi3
 
 
+
 1. Kernel build for LTE modem USB driver. Refer to module vendor's USB driver integration guilde! 
 # add USB driver in bcmrpi3_defconfig
 # kernel-v4.14/arch/arm64/configs/bcmrpi3_defconfig 
@@ -16,6 +17,7 @@ CONFIG_USB_NET_QMI_WWAN=y
 
 # refer to Kernel build process from the link below,
 https://github.com/brobwind/pie-device-brobwind-rpi3-kernel-v4.14
+
 
 2. Edit .rc files for ril-daemon & device permission. 
 # add service in init.rc
@@ -31,6 +33,7 @@ service ril-daemon /vendor/bin/hw/rild -l /vendor/lib/libreference-ril.so
 /dev/cdc-wdm* 	0660 	radio 	radio
 /dev/qcqmi* 	0660 	radio 	radio
 /dev/cdc-acm* 	0660 	radio 	radio
+
 
 3. Configure files related to sepolicy 
 # add scripts as below
@@ -69,20 +72,24 @@ service ril-daemon /vendor/bin/hw/rild -l /vendor/lib/libreference-ril.so
 	</interface>
 </hal>
 
+
 4. Add mini_rpi3_telephony.mk to rpi3.mk in order to include telephony feature 
 # device/brobwind/rpi3/rpi3.mk
 $(call inherit-product, device/brobwind/rpi3/mini_rpi3_telephony.mk)
 
+
 5. Remove the useless feature in hardware/ril/rild/Android.mk 
 # comment or delete ENABLE_VENDOR_RIL_SERVICE & LOCAL_INIT_RC 
-
 #LOCAL_INIT_RC := rild.legacy.rc
 
+
 6. Copy libreference-ril.so in device/brobwind/rpi3
+
 
 7. Add GPS feature in BoardConfig.mk
 # device/brobwind/rpi3/BoardConfig.mk
 BOARD_HAS_GPS :=true
+
 
 8. Delete existing gps package and add new package
 # device/brobwind/rpi3/mini_rpi3_common.mk 
@@ -95,18 +102,22 @@ PRODUCT_PACKAGES += \
     android.hardware.gnss@1.0-service \
     android.hardware.gnss@1.0-impl
 
+
 9. Remove gps.rpi3.so if you already built android
 # out/target/product/rpi3/vendor/lib/hw/gps.rpi3.so
+
 
 10.A If you have ths source code for GPS library, add the code to device/brobwind/rpi3/hals/gps folder.
 # Set variables in Android.mk
 LOCAL_VENDOR_MODULE :=true
 LOCAL_MODULE_RELATIVE_PATH :=hw
 
+
 10.B If you have gps library(gps.default.so), copy it to device/brobwind/rpi3/libgps/armeabi folder and add scripts as below
 # device/brobwind/rpi3/mini_rpi3_telephony.mk
 PRODUCT_COPY_FILES += \
   device/brobwind/rpi3/libgps/armeabi/gps.default.so:vendor/lib/hw/gps.default.so
+
 
 11. /dev/cdc-wdm0 device not created with QMI device and qmi_wwan driver
 # add "usbmisc" in system/core/init/devices.cpp
@@ -116,11 +127,11 @@ PRODUCT_COPY_FILES += \
 # refer to the forum below
 https://groups.google.com/forum/#!msg/Android-x86/1njBsHw0vro/YwhjZ7TtJJIJ
 
+
 12. Add the resouce in order to activate LTE mode in Setting
 # device/brobwind/rpi3/overlay/package/services/Telephony/res/value/config.xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>	
 <!-- Show enabled lte option for lte device -->    <bool name="config_enabled_lte" translatable="false">true</bool>
 </resources>
-
 

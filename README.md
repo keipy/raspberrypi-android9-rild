@@ -5,7 +5,7 @@ https://github.com/brobwind/pie-device-brobwind-rpi3
 
 
 # 1. Kernel build for LTE modem USB driver. Refer to module vendor's USB driver integration guilde! 
-**add USB driver in bcmrpi3_defconfig**
+**add USB driver in bcmrpi3_defconfig**  
 ***kernel-v4.14/arch/arm64/configs/bcmrpi3_defconfig***
 ```
 CONFIG_USB_WDM=y
@@ -17,12 +17,12 @@ CONFIG_USB_NET_CDC_MBIM=y
 CONFIG_USB_NET_QMI_WWAN=y
 ```
 
-**refer to Kernel build process from the link below**
+**refer to Kernel build process from the link below**  
 https://github.com/brobwind/pie-device-brobwind-rpi3-kernel-v4.14
 
 
 # 2. Edit .rc files for ril-daemon & device permission. 
-**add service in init.rc**
+**add service in init.rc**  
 ***system/core/rootdir/init.rc***
 ```
 service ril-daemon /vendor/bin/hw/rild -l /vendor/lib/libreference-ril.so    
@@ -30,7 +30,7 @@ service ril-daemon /vendor/bin/hw/rild -l /vendor/lib/libreference-ril.so
 	user root
 	group radio cache inet misc audio sdcard_rw log
 ```  
-**add diver permission in ueventd.rc**
+**add diver permission in ueventd.rc**  
 ***system/core/rootdir/ueventd.rc***
 ```
 /dev/ttyUSB* 	0660 	radio 	radio
@@ -40,7 +40,7 @@ service ril-daemon /vendor/bin/hw/rild -l /vendor/lib/libreference-ril.so
 ```
 
 # 3. Configure files related to sepolicy 
-**add scripts as below**
+**add scripts as below**  
 ***device/brobwind/rpi3/sepolicy/file_contexts***
 ```
 /dev/ttyUSB[0-9]*		u:object_r:tty_device:s0
@@ -96,8 +96,9 @@ $(call inherit-product, device/brobwind/rpi3/mini_rpi3_telephony.mk)
 
 # 7. Add GPS feature in BoardConfig.mk
 ***device/brobwind/rpi3/BoardConfig.mk***
+```
 BOARD_HAS_GPS :=true
-
+```
 
 # 8. Delete existing gps package and add new package
 ***device/brobwind/rpi3/mini_rpi3_common.mk***
@@ -136,7 +137,7 @@ PRODUCT_COPY_FILES += \
 -} else if (uevent.subsystem == "usb") {
 +} else if (uevent.subsystem == "usb" || uevent.subsystem == "usbmisc") {
 ```
-**refer to the forum below**
+**refer to the forum below**  
 https://groups.google.com/forum/#!msg/Android-x86/1njBsHw0vro/YwhjZ7TtJJIJ
 
 

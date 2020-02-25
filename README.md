@@ -5,8 +5,8 @@ https://github.com/brobwind/pie-device-brobwind-rpi3
 
 
 # 1. Kernel build for LTE modem USB driver. Refer to module vendor's USB driver integration guilde! 
-** add USB driver in bcmrpi3_defconfig
-*** kernel-v4.14/arch/arm64/configs/bcmrpi3_defconfig 
+**add USB driver in bcmrpi3_defconfig
+***kernel-v4.14/arch/arm64/configs/bcmrpi3_defconfig 
 ```
 CONFIG_USB_WDM=y
 CONFIG_USB_SERIAL=y
